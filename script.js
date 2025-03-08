@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Set up event listeners
   setupEventListeners();
-  initSpeechRecognition();
+  //   initSpeechRecognition();
 
   /*** INITIALIZATION FUNCTIONS ***/
 

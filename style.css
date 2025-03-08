@@ -276,6 +276,7 @@ tr.close {
 }
 
 .mic-btn {
+  display: none;
   position: absolute;
   right: 10px;
   background: transparent;
