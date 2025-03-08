@@ -256,3 +256,57 @@ tr.close {
   color: var(--text-muted);
   margin-left: 5px;
 }
+
+.input-display-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.input-display {
+  font-size: 24px;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  min-height: 40px;
+  margin: 10px 0;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.mic-btn {
+  position: absolute;
+  right: 10px;
+  background: transparent;
+  color: var(--text-color);
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  margin: 0;
+  padding: 5px 10px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.mic-btn:hover {
+  background: var(--background-light);
+}
+
+.mic-btn.listening {
+  background: var(--accent-color);
+  color: white;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

@@ -1,4 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
+  let recognition = null;
+  let isListening = false;
+
   // DOM Elements
   const elements = initializeElements();
 
@@ -29,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Set up event listeners
   setupEventListeners();
+  initSpeechRecognition();
 
   /*** INITIALIZATION FUNCTIONS ***/
 
@@ -56,6 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
       resultsTable: document.getElementById("results-table"),
       resultsBody: document.getElementById("results-body"),
       finalScore: document.getElementById("final-score"),
+      micBtn: document.getElementById("mic-btn"),
     };
   }
 
@@ -116,6 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     elements.backspaceBtn.addEventListener("click", handleBackspace);
     elements.submitBtn.addEventListener("click", submitAnswer);
     elements.playAgainBtn.addEventListener("click", handlePlayAgain);
+    elements.micBtn.addEventListener("click", toggleSpeechRecognition);
   }
 
   /*** SCORING FUNCTIONS ***/
@@ -312,6 +318,10 @@ document.addEventListener("DOMContentLoaded", () => {
     elements.inputDisplay.textContent = "";
     elements.feedbackDisplay.textContent = "";
     elements.feedbackDisplay.style.visibility = "hidden";
+
+    if (isListening && recognition) {
+      recognition.stop();
+    }
   }
 
   function startStopwatch() {
@@ -420,6 +430,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (state.roundActive && state.userInput !== "") {
       stopRoundTimers();
       state.roundActive = false;
+
+      if (isListening && recognition) {
+        recognition.stop();
+      }
 
       const userAnswer = processUserAnswer();
       showFeedback(userAnswer);
@@ -669,5 +683,174 @@ document.addEventListener("DOMContentLoaded", () => {
 
       elements.resultsBody.appendChild(row);
     });
+  }
+
+  function initSpeechRecognition() {
+    // Check if speech recognition is supported
+    if (
+      !("webkitSpeechRecognition" in window) &&
+      !("SpeechRecognition" in window)
+    ) {
+      console.log("Speech recognition not supported");
+      elements.micBtn.style.display = "none";
+      return false;
+    }
+
+    // Create the recognition object only once
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    try {
+      // Initialize the recognition object
+      recognition = new SpeechRecognition();
+
+      // Configure recognition settings
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      recognition.lang = "en-US";
+
+      // Set up event handlers
+      recognition.onstart = function () {
+        isListening = true;
+        elements.micBtn.classList.add("listening");
+      };
+
+      recognition.onresult = function (event) {
+        const transcript = event.results[0][0].transcript.trim();
+
+        // Convert speech to number
+        const number = extractNumberFromSpeech(transcript);
+        if (number !== null) {
+          state.userInput = number.toString();
+          elements.inputDisplay.textContent = state.userInput;
+        }
+      };
+      recognition.onend = function () {
+        isListening = false;
+        elements.micBtn.classList.remove("listening");
+      };
+
+      recognition.onerror = function (event) {
+        console.error("Speech recognition error", event.error);
+        isListening = false;
+        elements.micBtn.classList.remove("listening");
+      };
+
+      // Request permission once at initialization
+      // This will trigger the permission prompt once at the beginning
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices
+          .getUserMedia({ audio: true })
+          .then((stream) => {
+            // Immediately stop the stream - we just needed the permission
+            stream.getTracks().forEach((track) => track.stop());
+            console.log("Microphone permission granted");
+          })
+          .catch((err) => {
+            console.error("Microphone permission denied:", err);
+            elements.micBtn.style.display = "none";
+          });
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Error initializing speech recognition:", error);
+      elements.micBtn.style.display = "none";
+      return false;
+    }
+  }
+
+  // Extract a number from speech transcript
+  function extractNumberFromSpeech(transcript) {
+    // First, try to extract direct numbers
+    const directMatch = transcript.match(
+      /\b(zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty)\b/i
+    );
+
+    // Number words mapping
+    const numberWords = {
+      zero: 0,
+      one: 1,
+      two: 2,
+      three: 3,
+      four: 4,
+      five: 5,
+      six: 6,
+      seven: 7,
+      eight: 8,
+      nine: 9,
+      ten: 10,
+      eleven: 11,
+      twelve: 12,
+      thirteen: 13,
+      fourteen: 14,
+      fifteen: 15,
+      sixteen: 16,
+      seventeen: 17,
+      eighteen: 18,
+      nineteen: 19,
+      twenty: 20,
+      thirty: 30,
+    };
+
+    if (directMatch) {
+      const word = directMatch[0].toLowerCase();
+      if (numberWords[word] !== undefined) {
+        return numberWords[word];
+      }
+    }
+
+    // Complex number parsing (like "twenty one")
+    if (transcript.match(/\btwenty\s+one\b/i)) return 21;
+    if (transcript.match(/\btwenty\s+two\b/i)) return 22;
+    if (transcript.match(/\btwenty\s+three\b/i)) return 23;
+    if (transcript.match(/\btwenty\s+four\b/i)) return 24;
+    if (transcript.match(/\btwenty\s+five\b/i)) return 25;
+    if (transcript.match(/\btwenty\s+six\b/i)) return 26;
+    if (transcript.match(/\btwenty\s+seven\b/i)) return 27;
+    if (transcript.match(/\btwenty\s+eight\b/i)) return 28;
+    if (transcript.match(/\btwenty\s+nine\b/i)) return 29;
+
+    // Try to find digits
+    const digits = transcript.match(/\d+/);
+    if (digits) {
+      // Limit to 2 digits (0-30 range)
+      const num = parseInt(digits[0]);
+      if (!isNaN(num) && num <= 30) {
+        return num;
+      }
+    }
+
+    return null;
+  }
+
+  // Toggle speech recognition
+  function toggleSpeechRecognition() {
+    // If recognition isn't initialized yet, try to initialize it
+    if (!recognition) {
+      if (!initSpeechRecognition()) {
+        return;
+      }
+    }
+
+    // Toggle between listening and not listening
+    if (isListening) {
+      recognition.stop();
+    } else if (state.roundActive) {
+      // Only allow listening during an active round
+      try {
+        // This shouldn't prompt for permissions again if already granted
+        recognition.start();
+      } catch (e) {
+        console.error("Could not start speech recognition:", e);
+
+        // If there's an error, try to recreate the recognition object
+        if (e.name === "NotAllowedError") {
+          console.log("Attempting to reinitialize speech recognition...");
+          recognition = null;
+          initSpeechRecognition();
+        }
+      }
+    }
   }
 });
