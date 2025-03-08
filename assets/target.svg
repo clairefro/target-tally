@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://web.resource.org/cc/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.0" width="80cm" height="80cm" viewBox="-40 -40 80 80" id="svg2">
+  <metadata id="metadata18">
+    <rdf:RDF>
+      <cc:Work rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <dc:title>Official WA 80cm Archery Target</dc:title>
+        <dc:date>2006-06-01</dc:date>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>Alberto Barbati</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/by-sa/2.0/"/>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>archery target</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:description>An official WA 80cm archery target.
+Real colors are:
+Yellow: Pantone 107 U
+Red: Pantone 032 U
+Light blue: Pantone 306 U</dc:description>
+      </cc:Work>
+      <cc:License rdf:about="http://creativecommons.org/licenses/by-sa/2.0/">
+        <cc:permits rdf:resource="http://web.resource.org/cc/Reproduction"/>
+        <cc:permits rdf:resource="http://web.resource.org/cc/Distribution"/>
+        <cc:requires rdf:resource="http://web.resource.org/cc/Notice"/>
+        <cc:requires rdf:resource="http://web.resource.org/cc/Attribution"/>
+        <cc:permits rdf:resource="http://web.resource.org/cc/DerivativeWorks"/>
+        <cc:requires rdf:resource="http://web.resource.org/cc/ShareAlike"/>
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <circle r="39.9" fill="#fff" stroke="#000" stroke-width=".2" id="Zone1"/>
+  <circle r="35.9" fill="#fff" stroke="#000" stroke-width=".2" id="Zone2"/>
+  <circle r="32" fill="#000" id="Zone3"/>
+  <circle r="27.9" fill="#000" stroke="#fff" stroke-width=".2" id="Zone4"/>
+  <circle r="24" fill="#00b4e4" id="Zone5"/>
+  <circle r="19.9" fill="#00b4e4" stroke="#000" stroke-width=".2" id="Zone6"/>
+  <circle r="15.9" fill="#f55058" stroke="#000" stroke-width=".2" id="Zone7"/>
+  <circle r="11.9" fill="#f55058" stroke="#000" stroke-width=".2" id="Zone8"/>
+  <circle r="7.9" fill="#ffe553" stroke="#000" stroke-width=".2" id="Zone9"/>
+  <circle r="3.9" fill="#ffe553" stroke="#000" stroke-width=".2" id="Zone10"/>
+  <circle r="1.9" fill="#ffe553" stroke="#000" stroke-width=".1" id="Inner10"/>
+  <path d="M-.2 0h.4M0-.2v.4" stroke="#000" stroke-width=".1" id="Center"/>
+</svg>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Target Tally</title>
+
+    <!-- Standard favicon -->
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+    <!-- Apple Touch Icon (for iOS devices) -->
+    <link rel="apple-touch-icon" href="assets/target.png" />
+    <!-- Android Chrome -->
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/target.png" />
+    <!-- Modern browsers -->
+    <link rel="icon" type="image/png" sizes="64x64" href="assets/target.png" />
+
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="game-container">
+      <h1>Target Tally</h1>
+      <!-- Game Selection Screen -->
+      <div class="game-selection active">
+        <h2>Choose Game Type</h2>
+        <button id="score-tally-btn">Score Tally</button>
+        <button id="arrow-calling-btn" disabled>
+          Arrow Calling (Coming Soon)
+        </button>
+      </div>
+
+      <!-- Game Screen -->
+      <div class="game-screen">
+        <div class="game-info">
+          <h2 id="game-type-title">Score Tally</h2>
+          <div id="game-info">
+            <div id="round-info">
+              End <span id="current-round">1</span> / 10
+            </div>
+            <div class="stopwatch" id="stopwatch">00:00:000</div>
+          </div>
+        </div>
+
+        <button id="start-round-btn">Start Round</button>
+
+        <div id="score-tally-screen">
+          <div class="arrows-display" id="arrows-display"></div>
+          <div class="input-container">
+            <div class="input-display" id="input-display"></div>
+            <div class="feedback" id="feedback"></div>
+          </div>
+
+          <div class="numberpad">
+            <button class="num-btn" data-value="1">1</button>
+            <button class="num-btn" data-value="2">2</button>
+            <button class="num-btn" data-value="3">3</button>
+            <button class="num-btn" data-value="4">4</button>
+            <button class="num-btn" data-value="5">5</button>
+            <button class="num-btn" data-value="6">6</button>
+            <button class="num-btn" data-value="7">7</button>
+            <button class="num-btn" data-value="8">8</button>
+            <button class="num-btn" data-value="9">9</button>
+            <button id="backspace-btn" class="util-btn">⌫</button>
+            <button class="num-btn" data-value="0">0</button>
+            <button id="submit-btn" class="util-btn">Submit</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Countdown Screen -->
+      <div class="countdown-screen">
+        <div id="countdown">3</div>
+      </div>
+
+      <!-- Game Over Screen -->
+      <div class="game-over">
+        <h2>Game Over</h2>
+        <div id="final-score"></div>
+        <div id="results-table-container">
+          <table id="results-table">
+            <thead>
+              <tr>
+                <th>End</th>
+                <th>Arrows</th>
+                <th>Your Answer</th>
+                <th>Correct Answer</th>
+                <th>Time (s)</th>
+                <th>Result</th>
+              </tr>
+            </thead>
+            <tbody id="results-body"></tbody>
+          </table>
+        </div>
+        <button id="play-again-btn">Play Again</button>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
